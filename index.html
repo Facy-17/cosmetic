@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Vibes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060816;
+  --bg-2:#0e1327;
+  --panel:rgba(12,18,40,.62);
+  --line:rgba(255,255,255,.11);
+  --text:#f5f7ff;
+  --muted:rgba(232,237,255,.66);
+  --pink:#ff6fa6;
+  --violet:#9068ff;
+  --cyan:#6fe7ff;
+  --shadow:0 24px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Manrope",sans-serif;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(144,104,255,.2), transparent 24%),
+    radial-gradient(circle at 85% 15%, rgba(255,111,166,.16), transparent 28%),
+    radial-gradient(circle at 50% 85%, rgba(111,231,255,.12), transparent 30%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,.18) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 10%, rgba(255,255,255,.15) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 65% 60%, rgba(255,255,255,.1) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 35% 80%, rgba(255,255,255,.12) 0 1px, transparent 1.5px);
+  background-size:220px 220px,300px 300px,260px 260px,180px 180px;
+  opacity:.55;
+}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.shell{width:min(1180px, calc(100vw - 28px));margin:0 auto;padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(5,8,22,.58);border-bottom:1px solid var(--line)}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:74px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-badge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(255,111,166,.22), rgba(144,104,255,.24));border:1px solid rgba(255,255,255,.12)}
+.brand h1{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:400;letter-spacing:.08em}
+.brand p{font-size:.78rem;text-transform:uppercase;letter-spacing:.22em;color:var(--muted)}
+.nav-links{display:flex;align-items:center;gap:18px;list-style:none}
+.nav-links a{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.nav-links a:hover,.nav-links a.active{color:var(--pink)}
+.menu-btn{display:none;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);padding:10px 14px;border-radius:999px}
+main section{padding:88px 0}
+.hero{min-height:calc(100vh - 74px);display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:34px}
+.eyebrow{display:inline-flex;gap:10px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);margin-bottom:20px}
+.hero h2{font-family:"Cormorant Garamond",serif;font-size:clamp(3.6rem,9vw,7rem);font-weight:400;line-height:.88;letter-spacing:-.03em;margin-bottom:20px}
+.hero h2 em{font-style:italic;background:linear-gradient(135deg,var(--pink),var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;color:var(--muted);font-size:1.02rem;line-height:1.9}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.btn{border:none;border-radius:999px;padding:14px 24px;min-height:48px;transition:transform .24s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{color:white;background:linear-gradient(135deg,var(--pink),var(--violet));box-shadow:0 14px 34px rgba(144,104,255,.28)}
+.btn-secondary{color:var(--text);background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.hero-card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow)}
+.hero-card{padding:26px;position:relative;overflow:hidden}
+.hero-card::before{content:"";position:absolute;inset:auto -30% 54% auto;width:240px;height:240px;background:radial-gradient(circle, rgba(255,111,166,.3), transparent 65%)}
+.hero-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:22px}
+.stat-card{padding:18px}
+.stat-card strong{display:block;font-size:2rem;font-family:"Cormorant Garamond",serif;font-weight:500;margin-bottom:6px}
+.stat-card span{color:var(--muted);font-size:.92rem}
+.mini-player{margin-top:14px;padding:18px}
+.mini-player-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;max-width:100%}
+.level{height:8px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.06)}
+.level>span{display:block;height:100%;width:42%;border-radius:inherit;background:linear-gradient(90deg,var(--pink),var(--cyan))}
+.section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:32px}
+.section-copy h3{font-family:"Cormorant Garamond",serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:400;line-height:.95}
+.section-copy h3 em{font-style:italic;color:var(--cyan)}
+.section-copy p{margin-top:12px;color:var(--muted);max-width:560px;line-height:1.8}
+.dashboard{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.mood-grid{padding:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mood-card{min-height:136px;border-radius:24px;border:1px solid rgba(255,255,255,.08);padding:18px 14px;background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));text-align:left;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.mood-card:hover,.mood-card.selected{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 16px 34px color-mix(in srgb, var(--accent) 22%, transparent)}
+.mood-card{position:relative;overflow:hidden;perspective:900px}
+.mood-card::before{content:"";position:absolute;inset:auto -20% -35% auto;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle, color-mix(in srgb,var(--accent) 55%, white) 0%, transparent 70%);opacity:.35;filter:blur(12px)}
+.mood-orb{position:relative;width:74px;height:74px;margin-bottom:14px;transform-style:preserve-3d;animation:floatOrb 4.8s ease-in-out infinite}
+.mood-face{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:2rem;transform:translateZ(42px);text-shadow:0 0 18px rgba(255,255,255,.26)
+}
+.mood-face::before,.mood-face::after{
+  content:"";position:absolute;top:25px;width:10px;height:14px;border-radius:50%;
+  background:rgba(10,12,24,.82);box-shadow:0 0 10px rgba(255,255,255,.22)
+}
+.mood-face::before{left:20px}
+.mood-face::after{right:20px}
+.mood-mouth{
+  position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+  width:30px;height:14px;border-bottom:3px solid rgba(10,12,24,.84);border-radius:0 0 30px 30px
+}
+.mood-mouth.wave{height:10px;border-bottom:none;border-top:3px solid rgba(10,12,24,.84);border-radius:30px 30px 0 0}
+.mood-mouth.spark{width:12px;height:12px;border:3px solid rgba(10,12,24,.84);border-left:none;border-top:none;transform:translateX(-50%) rotate(45deg);border-radius:3px}
+.mood-mouth.glow{width:22px;height:22px;border:0;background:rgba(255,255,255,.92);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 92%,50% 71%,21% 92%,32% 57%,2% 35%,39% 35%)}
+.mood-core,.mood-ring,.mood-aura,.mood-spark{position:absolute;inset:0;border-radius:50%}
+.mood-core{
+  background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.95), color-mix(in srgb,var(--accent) 68%, black) 32%, rgba(7,10,24,.95) 100%);
+  box-shadow:inset -10px -12px 26px rgba(0,0,0,.34), 0 14px 30px color-mix(in srgb,var(--accent) 26%, transparent);
+  transform:translateZ(28px)
+}
+.mood-ring{
+  inset:10px -6px;
+  border:2px solid color-mix(in srgb,var(--accent) 72%, white);
+  border-left-color:transparent;
+  border-right-color:transparent;
+  transform:rotateX(72deg) rotateY(18deg) translateZ(18px);
+  opacity:.82;
+  animation:spinRing 7s linear infinite
+}
+.mood-aura{
+  inset:-16px;
+  background:radial-gradient(circle, color-mix(in srgb,var(--accent) 30%, transparent) 0%, transparent 68%);
+  filter:blur(12px);
+  opacity:.8;
+  animation:pulseAura 3.2s ease-in-out infinite
+}
+.mood-spark{
+  inset:auto;
+  width:10px;
+  height:10px;
+  top:8px;
+  right:10px;
+  background:white;
+  box-shadow:0 0 20px rgba(255,255,255,.9);
+  animation:orbitSpark 3.6s linear infinite
+}
+@keyframes floatOrb{0%,100%{transform:rotateX(0deg) rotateY(0deg) translateY(0)}50%{transform:rotateX(14deg) rotateY(-16deg) translateY(-6px)}}
+@keyframes spinRing{from{transform:rotateX(72deg) rotateY(18deg) rotateZ(0deg) translateZ(18px)}to{transform:rotateX(72deg) rotateY(18deg) rotateZ(360deg) translateZ(18px)}}
+@keyframes pulseAura{0%,100%{transform:scale(.92);opacity:.48}50%{transform:scale(1.08);opacity:.92}}
+@keyframes orbitSpark{from{transform:rotate(0deg) translateX(28px)}to{transform:rotate(360deg) translateX(28px)}}
+.mood-card strong{display:block;margin-bottom:6px}
+.mood-card span{display:block;color:var(--muted);font-size:.88rem;line-height:1.5}
+.insight{padding:24px;display:flex;flex-direction:column;gap:18px}
+.quote{font-family:"Cormorant Garamond",serif;font-size:1.9rem;line-height:1.35}
+.author{color:var(--pink);letter-spacing:.12em;text-transform:uppercase;font-size:.75rem}
+.tag-row{display:flex;gap:8px;flex-wrap:wrap}
+.tag{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:.84rem}
+.daily-meter{display:grid;gap:12px}
+.meter-line{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.feature-card{padding:22px}
+.feature-card strong{display:block;margin-bottom:10px;font-size:1rem}
+.feature-card p{color:var(--muted);line-height:1.7;font-size:.94rem}
+.player-panel,.track-list,.journal-card,.memory-card{padding:24px}
+.player-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.player-title{font-family:"Cormorant Garamond",serif;font-size:2rem}
+.player-sub{color:var(--muted);margin-top:6px;line-height:1.7}
+.search-stack,.embed-stack{display:grid;gap:10px;margin-top:20px}
+.media-label{font-size:.84rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.media-search-row{display:grid;grid-template-columns:1fr auto auto;gap:10px}
+.media-search-row input{
+  min-height:52px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);color:var(--text);padding:0 16px
+}
+.media-frame-wrap{
+  margin-top:18px;
+  aspect-ratio:16/9;
+  width:100%;
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(10,15,34,.85), rgba(6,8,22,.95))
+}
+.media-frame-wrap iframe{width:100%;height:100%;border:0;background:#090d1b}
+.galaxy-panel{padding:24px;display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch}
+.galaxy-stage{
+  min-height:620px;display:grid;place-items:center;border-radius:28px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.08), transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(120,112,255,.1), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.06);
+  cursor:grab;
+  overflow:hidden;
+  touch-action:none;
+  position:relative;
+  isolation:isolate
+}
+.galaxy-stage.dragging{cursor:grabbing}
+.galaxy-stage::before{
+  content:"";position:absolute;inset:8% 10%;border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 0 80px rgba(144,104,255,.08);
+  pointer-events:none;z-index:0
+}
+.galaxy-stage::after{
+  content:"";position:absolute;inset:auto 6% 6% auto;width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle, rgba(111,231,255,.16), transparent 70%);
+  filter:blur(8px);pointer-events:none;z-index:0
+}
+#galaxyCanvas{
+  width:min(100%,560px);height:auto;display:block;border-radius:50%;position:relative;z-index:1;
+  box-shadow:0 0 40px rgba(111,231,255,.12), 0 0 110px rgba(144,104,255,.12)
+}
+.galaxy-copy{display:grid;align-content:center;gap:14px}
+.galaxy-copy strong{display:block;margin-bottom:0;font-size:1.05rem}
+.galaxy-copy p{color:var(--muted);line-height:1.8;margin-bottom:0}
+.galaxy-badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.galaxy-badge{
+  padding:16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04)
+}
+.galaxy-badge strong{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.galaxy-badge span{display:block;margin-top:8px;font-size:1rem;line-height:1.5}
+.track-list{display:grid;gap:10px}
+.track{width:100%;text-align:left;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text);transition:transform .24s ease,border-color .24s ease,background .24s ease}
+.track:hover,.track.active{transform:translateX(4px);border-color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, rgba(255,255,255,.06))}
+.track-top{display:flex;justify-content:space-between;gap:14px;align-items:center}
+.track strong{font-size:1rem}
+.track small{display:block;margin-top:6px;color:var(--muted);line-height:1.6}
+.pill{padding:6px 10px;border-radius:999px;font-size:.73rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.08)}
+.journal-grid{display:grid;grid-template-columns:1fr .82fr;gap:18px}
+.prompt{font-family:"Cormorant Garamond",serif;font-size:2rem;line-height:1.25;margin:14px 0 18px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:16px}
+.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--text)}
+textarea{width:100%;min-height:220px;border:none;outline:none;resize:vertical;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;color:var(--text);line-height:1.8}
+input,textarea{font-size:16px}
+.meta-row{display:flex;justify-content:space-between;gap:12px;margin-top:16px;color:var(--muted);font-size:.92rem}
+.memory-list{margin-top:16px;display:grid;gap:12px;max-height:420px;overflow:auto;padding-right:4px}
+.memory-item{padding:16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
+.memory-item strong{display:block;margin-bottom:8px}
+.memory-item p{color:var(--muted);line-height:1.65;font-size:.94rem}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);background:rgba(13,19,42,.92);color:var(--text);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:12px 18px;opacity:0;pointer-events:none;transition:.24s ease;z-index:80}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.footer{padding:0 0 56px}
+.footer-card{padding:26px;text-align:center}
+.footer-card p{color:var(--muted);line-height:1.8}
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+[data-reveal].shown{opacity:1;transform:none}
+@media (max-width:1180px){.hero{grid-template-columns:1fr}.hero-card{max-width:760px}}
+@media (max-width:980px){.hero,.dashboard,.journal-grid,.galaxy-panel{grid-template-columns:1fr}.features{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(2,1fr)}.galaxy-stage{min-height:520px}.galaxy-copy{order:2}.galaxy-badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.menu-btn{display:inline-flex;min-height:46px}.nav-links{position:absolute;top:74px;left:14px;right:14px;display:none;flex-direction:column;padding:18px;background:rgba(8,12,28,.96);border:1px solid var(--line);border-radius:24px;max-height:calc(100vh - 100px);overflow:auto}.nav-links.open{display:flex}.section-head{display:block}.section-copy p{margin-bottom:18px}.hero-actions,.toolbar,.meta-row{display:grid;grid-template-columns:1fr}.btn{width:100%}.chip{width:max-content;max-width:100%}}
+@media (max-width:560px){.shell{width:min(100vw - 18px, 1180px)}.hero h2{font-size:3.2rem}.mood-grid{grid-template-columns:1fr}.galaxy-stage{min-height:380px;padding:16px}.galaxy-badge-grid,.hero-stat-grid{grid-template-columns:1fr}.quote,.prompt{font-size:1.65rem}.journal-card,.memory-card,.wish-card,.rain-card,.astro-card,.garden-card,.planet-card,.feature-card,.hero-card,.galaxy-panel{padding:18px}.nav-wrap{min-height:68px}}
+.cosmic-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.astro-card,.wish-card,.rain-card,.garden-card,.planet-card{padding:24px}
+.astro-stage,.rain-stage,.garden-stage,.planet-stage{min-height:360px;border-radius:24px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));position:relative;overflow:hidden}
+.astro-stage canvas,.planet-stage canvas{width:100%;height:100%;display:block}
+.wish-form{display:grid;grid-template-columns:1fr auto;gap:12px;margin-top:18px}
+.wish-input{min-height:54px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text);padding:0 16px}
+.wish-cloud{display:grid;gap:12px;margin-top:18px}
+.wish-star{padding:14px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text)}
+.wish-star small{display:block;color:var(--muted);margin-top:8px}
+.rain-stage{cursor:pointer}
+.rain-hint{margin-top:14px;color:var(--muted);line-height:1.7}
+.rain-star{position:absolute;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.95), rgba(111,231,255,.55) 55%, transparent 72%);box-shadow:0 0 18px rgba(111,231,255,.55);animation:fallStar linear forwards}
+.rain-star.message::after{content:attr(data-message);position:absolute;left:18px;top:-4px;white-space:nowrap;background:rgba(7,10,24,.88);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:999px;color:var(--text);font-size:.82rem}
+@keyframes fallStar{from{transform:translateY(-30px) scale(.8);opacity:0}10%{opacity:1}to{transform:translateY(380px) scale(1.05);opacity:.15}}
+.garden-stage{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px;align-items:end}
+.garden-flower{min-height:160px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden}
+.garden-flower::before{content:"";position:absolute;left:50%;bottom:0;width:4px;height:76px;background:linear-gradient(180deg, #3ad88b, #1d6e53);transform:translateX(-50%)}
+.petal{position:absolute;left:50%;bottom:64px;width:34px;height:34px;border-radius:50% 50% 42% 42%;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), var(--petal));box-shadow:0 0 18px color-mix(in srgb,var(--petal) 34%, transparent)}
+.petal.p1{transform:translate(-50%,-20px)}
+.petal.p2{transform:translate(-22px,0)}
+.petal.p3{transform:translate(-78px,0)}
+.petal.p4{transform:translate(-50%,18px)}
+.flower-core{position:absolute;left:50%;bottom:72px;width:26px;height:26px;border-radius:50%;transform:translateX(-50%);background:radial-gradient(circle, #fff5bf, #ffbd4a 70%, #8c5315)}
+.garden-empty{display:grid;place-items:center;color:var(--muted);grid-column:1/-1;text-align:center;padding:24px}
+.planet-layout{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+.planet-readout{display:grid;gap:12px}
+.planet-item{padding:16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
+.planet-item strong{display:block;margin-bottom:6px}
+.planet-item p{color:var(--muted);line-height:1.65;font-size:.92rem}
+@media (max-width:980px){.cosmic-grid,.planet-layout{grid-template-columns:1fr}.garden-stage{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.astro-stage,.planet-stage{min-height:320px}.wish-form,.garden-stage{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="shell nav-wrap">
+    <div class="brand">
+      <div class="brand-badge">✦</div>
+      <div>
+        <h1>Cosmic Vibes</h1>
+        <p>Tu universo personal</p>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn" type="button">Menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#mood">Mood</a></li>
+      <li><a href="#galaxy">Galaxia</a></li>
+      <li><a href="#portal">Deseos</a></li>
+      <li><a href="#astral">Astral</a></li>
+      <li><a href="#journal">Diario</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="shell">
+  <section class="hero">
+    <div data-reveal>
+      <div class="eyebrow">✦ vibra, crea, explora</div>
+      <h2>Eres un <em>universo</em><br>que no deja de expandirse.</h2>
+      <p>Con mucho amor de parte de By:Facy</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#galaxy">Explorar galaxia</a>
+        <a class="btn btn-secondary" href="#journal">Escribir ahora</a>
+      </div>
+    </div>
+    <div class="hero-card" data-reveal>
+      <div class="hero-stat-grid">
+        <div class="glass stat-card"><strong id="streakCount">0</strong><span>dias conectando contigo</span></div>
+        <div class="glass stat-card"><strong id="entryCount">0</strong><span>entradas guardadas</span></div>
+        <div class="glass stat-card"><strong id="favMood">Libre</strong><span>mood mas repetido</span></div>
+        <div class="glass stat-card"><strong id="currentTrackMini">Cosmica</strong><span>energia activa</span></div>
+      </div>
+      <div class="glass mini-player">
+        <div class="mini-player-top">
+          <div>
+            <strong style="display:block;margin-bottom:6px">Radar emocional</strong>
+            <span style="color:var(--muted)">Se adapta a tu mood y a tu energia.</span>
+          </div>
+          <span class="chip" id="moodChip">Mood libre</span>
+        </div>
+        <div class="level"><span id="heroLevel"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mood">
+    <div class="section-head" data-reveal>
+      <div class="section-copy">
+        <div class="eyebrow">✦ estado del dia</div>
+        <h3>Elige tu <em>mood</em></h3>
+        <p>Al tocar una vibra cambian la frase, el color principal y la recomendacion de ritual para acompanarte mejor.</p>
+      </div>
+      <div class="chip" id="suggestionChip">Sugerencia: selecciona un mood</div>
+    </div>
+    <div class="dashboard">
+      <div class="panel mood-grid" id="moodGrid" data-reveal></div>
+      <div class="panel insight" data-reveal>
+        <p class="quote" id="moodQuote">Elige tu estado de animo y deja que el sitio te responda.</p>
+        <p class="author" id="moodAuthor">cosmic vibes</p>
+        <div class="tag-row" id="moodTags"></div>
+        <div class="daily-meter">
+          <div class="meter-line"><span>Intensidad emocional</span><strong id="moodIntensity">0%</strong></div>
+          <div class="level"><span id="moodLevel"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="features">
+      <article class="panel feature-card" id="rituals" data-reveal><strong>Ritual recomendado</strong><p id="ritualText">Primero elige un mood y te recomiendo una accion concreta para hoy.</p></article>
+      <article class="panel feature-card" data-reveal><strong>Micro objetivo</strong><p id="goalText">Cuando definas tu estado, te propongo una meta pequena y realista.</p></article>
+      <article class="panel feature-card" data-reveal><strong>Impacto</strong><p id="impactText">Tu seleccion alimenta tus estadisticas locales y personaliza la experiencia.</p></article>
+    </div>
+  </section>
+
+  <section id="galaxy">
+    <div class="section-head" data-reveal>
+      <div class="section-copy">
+        <div class="eyebrow">✦ galaxia interactiva</div>
+        <h3>Tu <em>universo</em> en expansion</h3>
+        <p>Una galaxia viva que gira sin detenerse, responde al tacto y convierte cada movimiento en una experiencia mas inmersiva y elegante.</p>
+      </div>
+      <div class="chip" id="galaxyChip">rotacion activa</div>
+    </div>
+    <div class="panel galaxy-panel" data-reveal>
+      <div class="galaxy-stage">
+        <canvas id="galaxyCanvas" width="520" height="520"></canvas>
+      </div>
+      <div class="galaxy-copy">
+        <strong>Experiencia inmersiva</strong>
+        <p>La rotacion continua le da presencia al sitio. Puedes arrastrarla con el dedo o el mouse, acercarla, alejarla y dejar que vuelva a respirar sola.</p>
+        <div class="galaxy-badge-grid">
+          <div class="galaxy-badge"><strong>Movimiento</strong><span>Rotacion permanente de 360 grados con respuesta suave.</span></div>
+          <div class="galaxy-badge"><strong>Interaccion</strong><span>Drag tactil y con mouse para explorar el cosmos libremente.</span></div>
+          <div class="galaxy-badge"><strong>Zoom</strong><span>Acerca o aleja la escena para sentir mas profundidad.</span></div>
+          <div class="galaxy-badge"><strong>Atmosfera</strong><span>Brillo, capas y orbita continua para una presencia mas premium.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portal">
+    <div class="section-head" data-reveal>
+      <div class="section-copy">
+        <div class="eyebrow">✦ deseos y senales</div>
+        <h3>Portal de <em>deseos</em></h3>
+        <p>Escribe deseos para lanzarlos al cielo y toca la lluvia de estrellas para descubrir mensajes del universo.</p>
+      </div>
+      <div class="chip" id="wishChip">0 deseos guardados</div>
+    </div>
+    <div class="cosmic-grid">
+      <article class="panel wish-card" data-reveal>
+        <strong style="display:block;font-size:1.1rem">Escribe tu deseo</strong>
+        <p class="player-sub">Cada deseo queda guardado localmente y aparece como estrella dentro de tu portal.</p>
+        <div class="wish-form">
+          <input class="wish-input" id="wishInput" type="text" maxlength="120" placeholder="Quiero paz, amor, claridad, abundancia...">
+          <button class="btn btn-primary" id="wishBtn" type="button">Lanzar</button>
+        </div>
+        <div class="wish-cloud" id="wishCloud"></div>
+      </article>
+      <article class="panel rain-card" data-reveal>
+        <strong style="display:block;font-size:1.1rem">Lluvia de estrellas interactiva</strong>
+        <p class="player-sub">Toca las estrellas en caida para revelar mensajes y pequenos recordatorios.</p>
+        <div class="rain-stage" id="rainStage"></div>
+        <p class="rain-hint" id="rainHint">Haz click o toca una estrella cuando cruce la pantalla.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="astral">
+    <div class="section-head" data-reveal>
+      <div class="section-copy">
+        <div class="eyebrow">✦ mapa del alma</div>
+        <h3>Mapa <em>astral</em> visual</h3>
+        <p>Explora un mapa simbólico y un planetario personal que responde al mood elegido.</p>
+      </div>
+      <div class="chip" id="astralChip">constelacion viva</div>
+    </div>
+    <div class="cosmic-grid">
+      <article class="panel astro-card" data-reveal>
+        <strong style="display:block;font-size:1.1rem">Mapa astral visual</strong>
+        <p class="player-sub">Un diagrama cósmico artístico con órbitas, nodos y rutas energéticas.</p>
+        <div class="astro-stage"><canvas id="astralCanvas" width="520" height="360"></canvas></div>
+      </article>
+      <article class="panel garden-card" data-reveal>
+        <strong style="display:block;font-size:1.1rem">Jardin estelar</strong>
+        <p class="player-sub">Tus entradas del diario hacen florecer este jardin con nuevas luces.</p>
+        <div class="garden-stage" id="gardenStage"></div>
+      </article>
+    </div>
+    <div class="panel planet-card" data-reveal style="margin-top:18px">
+      <div class="planet-layout">
+        <div>
+          <strong style="display:block;font-size:1.1rem">Planetario personal</strong>
+          <p class="player-sub">Cada planeta simboliza una fuerza interna y gira según tu energía actual.</p>
+          <div class="planet-stage"><canvas id="planetCanvas" width="620" height="360"></canvas></div>
+        </div>
+        <div class="planet-readout" id="planetReadout"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journal">
+    <div class="section-head" data-reveal>
+      <div class="section-copy">
+        <div class="eyebrow">✦ diario estelar</div>
+        <h3>Escribe tu <em>historia</em></h3>
+        <p>Tu nota queda guardada en el navegador. Tambien puedes exportarla como archivo .txt.</p>
+      </div>
+      <div class="chip" id="todayDate"></div>
+    </div>
+    <div class="journal-grid">
+      <div class="panel journal-card" data-reveal>
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <button class="btn ghost" type="button" id="newPromptBtn">Nueva pregunta</button>
+            <span class="chip" id="journalMoodChip">Mood libre</span>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn ghost" type="button" id="clearBtn">Limpiar</button>
+            <button class="btn btn-primary" type="button" id="saveBtn">Guardar</button>
+          </div>
+        </div>
+        <p class="prompt" id="promptText"></p>
+        <textarea id="journalInput" placeholder="Escribe lo que piensas, lo que deseas, lo que te pesa o lo que quieres soltar..."></textarea>
+        <div class="meta-row">
+          <span id="wordCount">0 palabras</span>
+          <button class="btn btn-secondary" type="button" id="exportBtn">Exportar .txt</button>
+        </div>
+      </div>
+      <aside class="panel memory-card" data-reveal>
+        <strong style="display:block;font-size:1.1rem">Tus ultimas entradas</strong>
+        <p style="color:var(--muted);line-height:1.7;margin-top:10px">Se guardan localmente en este navegador.</p>
+        <div class="memory-list" id="memoryList"></div>
+      </aside>
+    </div>
+  </section>
+</main>
+<footer class="footer shell">
+  <div class="panel footer-card">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:10px">Cosmic Vibes</h3>
+    <p>Con mucho amor de parte de By:Facy</p>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+<script>
+'use strict';
+const MOODS=[
+  {name:'Sonadora',face:'soft',accent:'#d8abff',intensity:46,quote:'Tus suenos no te distraen de la vida: te muestran hacia donde quiere crecer tu energia.',author:'el universo',tags:['luz suave','journaling','crear sin presion'],ritual:'Pon una cancion lenta, baja la luz y escribe tres imagenes que quieras volver reales.',goal:'Haz una sola accion pequena para acercarte a esa vision.',impact:'El sitio se vuelve mas etereo y sugiere pistas suaves para buscar en YouTube o Spotify.',search:'dreamy ambient playlist'},
+  {name:'Fuego',face:'spark',accent:'#ff885e',intensity:88,quote:'No naciste para pedir permiso cada vez que quieres encenderte.',author:'tu version valiente',tags:['movimiento','decision','energia alta'],ritual:'Levanta el volumen, ponte de pie y mueve el cuerpo durante dos minutos.',goal:'Termina hoy la tarea que mas has estado posponiendo.',impact:'Aumenta la intensidad visual y sugiere busquedas con mas energia.',search:'high energy latin pop playlist'},
+  {name:'Serena',face:'wave',accent:'#71f1d0',intensity:34,quote:'La calma no es vacio: es espacio para volver a escucharte.',author:'el silencio',tags:['respirar','descanso','claridad'],ritual:'Respira 4-4-6 cinco veces y escribe como quieres sentirte al cerrar el dia.',goal:'Protege una hora sin ruido externo.',impact:'Sugiere ambientes suaves y visuales mas limpios.',search:'calm piano relaxing playlist'},
+  {name:'Cosmica',face:'glow',accent:'#73dcff',intensity:67,quote:'Dentro de ti hay galaxias que todavia no han decidido mostrar todas sus estrellas.',author:'el cosmos',tags:['expansion','intuicion','asombro'],ritual:'Mira al cielo o imaginalo, luego anota una pregunta grande sin forzar respuesta.',goal:'Haz algo creativo sin buscar perfeccion.',impact:'Activa tonos espaciales y recomendaciones de busqueda mas astrales.',search:'cosmic synthwave space playlist'}
+];
+const PROMPTS=[
+  'Que parte de ti necesita mas ternura hoy?',
+  'Si no tuvieras miedo a decepcionar a nadie, que decidirias?',
+  'Que quieres dejar de cargar esta semana?',
+  'Como se veria una version mas honesta de tu rutina?',
+  'Que sientes cuando por fin te escuchas sin ruido externo?',
+  'Que pequeno gesto de amor propio puedes cumplir hoy?'
+];
+const storage={
+  entriesKey:'cosmic-vibes-entries',
+  statsKey:'cosmic-vibes-stats',
+  wishesKey:'cosmic-vibes-wishes',
+  getEntries(){try{return JSON.parse(localStorage.getItem(this.entriesKey))||[]}catch{return[]}},
+  setEntries(entries){localStorage.setItem(this.entriesKey,JSON.stringify(entries))},
+  getWishes(){try{return JSON.parse(localStorage.getItem(this.wishesKey))||[]}catch{return[]}},
+  setWishes(wishes){localStorage.setItem(this.wishesKey,JSON.stringify(wishes))},
+  getStats(){try{return JSON.parse(localStorage.getItem(this.statsKey))||{streak:0,moods:{}}}catch{return{streak:0,moods:{}}}},
+  setStats(stats){localStorage.setItem(this.statsKey,JSON.stringify(stats))}
+};
+const state={moodIndex:-1,promptIndex:0};
+const PLANETS=[
+  {name:'Venus',meaning:'Amor propio y dulzura.'},
+  {name:'Marte',meaning:'Impulso, deseo y accion.'},
+  {name:'Luna',meaning:'Intuicion, emociones y descanso.'},
+  {name:'Jupiter',meaning:'Expansion, fe y crecimiento.'},
+  {name:'Neptuno',meaning:'Sensibilidad, arte y misterio.'}
+];
+const STAR_MESSAGES=['Confia en tu tiempo.','Lo que siembra tu corazon florece.','No todo lo invisible esta perdido.','Tu energia tambien merece descanso.','Hay belleza en ir lento.','El universo escucha lo que repites con amor.'];
+const els={
+  navLinks:document.getElementById('navLinks'),
+  menuBtn:document.getElementById('menuBtn'),
+  moodGrid:document.getElementById('moodGrid'),
+  moodQuote:document.getElementById('moodQuote'),
+  moodAuthor:document.getElementById('moodAuthor'),
+  moodTags:document.getElementById('moodTags'),
+  ritualText:document.getElementById('ritualText'),
+  goalText:document.getElementById('goalText'),
+  impactText:document.getElementById('impactText'),
+  suggestionChip:document.getElementById('suggestionChip'),
+  moodChip:document.getElementById('moodChip'),
+  journalMoodChip:document.getElementById('journalMoodChip'),
+  favMood:document.getElementById('favMood'),
+  streakCount:document.getElementById('streakCount'),
+  entryCount:document.getElementById('entryCount'),
+  heroLevel:document.getElementById('heroLevel'),
+  moodLevel:document.getElementById('moodLevel'),
+  moodIntensity:document.getElementById('moodIntensity'),
+  currentTrackMini:document.getElementById('currentTrackMini'),
+  galaxyCanvas:document.getElementById('galaxyCanvas'),
+  galaxyStage:document.querySelector('.galaxy-stage'),
+  galaxyChip:document.getElementById('galaxyChip'),
+  wishInput:document.getElementById('wishInput'),
+  wishBtn:document.getElementById('wishBtn'),
+  wishCloud:document.getElementById('wishCloud'),
+  wishChip:document.getElementById('wishChip'),
+  rainStage:document.getElementById('rainStage'),
+  rainHint:document.getElementById('rainHint'),
+  astralCanvas:document.getElementById('astralCanvas'),
+  astralChip:document.getElementById('astralChip'),
+  gardenStage:document.getElementById('gardenStage'),
+  planetCanvas:document.getElementById('planetCanvas'),
+  planetReadout:document.getElementById('planetReadout'),
+  todayDate:document.getElementById('todayDate'),
+  promptText:document.getElementById('promptText'),
+  journalInput:document.getElementById('journalInput'),
+  wordCount:document.getElementById('wordCount'),
+  newPromptBtn:document.getElementById('newPromptBtn'),
+  clearBtn:document.getElementById('clearBtn'),
+  saveBtn:document.getElementById('saveBtn'),
+  exportBtn:document.getElementById('exportBtn'),
+  memoryList:document.getElementById('memoryList'),
+  toast:document.getElementById('toast')
+};
+let toastTimer=null;
+const galaxyState={rotation:0,tiltX:.45,tiltY:.25,zoom:1,dragging:false,lastX:0,lastY:0};
+let rainTimer=null;
+function toast(message){els.toast.textContent=message;els.toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>els.toast.classList.remove('show'),2200)}
+function buildMoodCards(){
+  const faceMarkup=(type)=>{
+    const mouthClass=type==='soft'?'':type;
+    return `<div class="mood-face">${type==='glow'?'<span class="mood-mouth glow"></span>':`<span class="mood-mouth ${mouthClass}"></span>`}</div>`;
+  };
+  els.moodGrid.innerHTML=MOODS.map((mood,index)=>`<button class="mood-card" type="button" data-index="${index}" style="--accent:${mood.accent}"><div class="mood-orb"><div class="mood-aura"></div><div class="mood-ring"></div><div class="mood-core"></div>${faceMarkup(mood.face)}<div class="mood-spark"></div></div><strong>${mood.name}</strong><span>${mood.tags[0]}, ${mood.tags[1]}</span></button>`).join('');
+  els.moodGrid.querySelectorAll('.mood-card').forEach(card=>card.addEventListener('click',()=>setMood(Number(card.dataset.index))));
+}
+function setMood(index){
+  state.moodIndex=index;
+  const mood=MOODS[index];
+  els.moodGrid.querySelectorAll('.mood-card').forEach(card=>card.classList.toggle('selected',Number(card.dataset.index)===index));
+  els.moodQuote.textContent=mood.quote;
+  els.moodAuthor.textContent=mood.author;
+  els.moodTags.innerHTML=mood.tags.map(tag=>`<span class="tag">${tag}</span>`).join('');
+  els.ritualText.textContent=mood.ritual;
+  els.goalText.textContent=mood.goal;
+  els.impactText.textContent=mood.impact;
+  els.suggestionChip.textContent=`Sugerencia: ${mood.ritual}`;
+  els.moodChip.textContent=`Mood ${mood.name}`;
+  els.journalMoodChip.textContent=`Mood ${mood.name}`;
+  els.moodIntensity.textContent=`${mood.intensity}%`;
+  els.moodLevel.style.width=`${mood.intensity}%`;
+  els.heroLevel.style.width=`${Math.max(24,mood.intensity)}%`;
+  els.currentTrackMini.textContent=mood.name;
+  document.documentElement.style.setProperty('--pink',mood.accent);
+  updateStatsMood(mood.name);
+  renderPlanetReadout();
+  els.astralChip.textContent=`mood ${mood.name.toLowerCase()}`;
+  toast(`Mood activo: ${mood.name}`);
+}
+function updateStatsMood(name){
+  const stats=storage.getStats();
+  stats.moods[name]=(stats.moods[name]||0)+1;
+  storage.setStats(stats);
+  renderStats();
+}
+function renderStats(){
+  const entries=storage.getEntries();
+  const stats=storage.getStats();
+  els.entryCount.textContent=entries.length;
+  els.streakCount.textContent=stats.streak||0;
+  const moodCounts=Object.entries(stats.moods||{});
+  if(!moodCounts.length){els.favMood.textContent='Libre';return;}
+  moodCounts.sort((a,b)=>b[1]-a[1]);
+  els.favMood.textContent=moodCounts[0][0];
+}
+function renderWishes(){
+  const wishes=storage.getWishes();
+  els.wishChip.textContent=`${wishes.length} deseos guardados`;
+  if(!wishes.length){
+    els.wishCloud.innerHTML='<div class="wish-star"><strong>Aun no hay deseos</strong><small>Escribe uno y lanzalo al portal.</small></div>';
+    return;
+  }
+  els.wishCloud.innerHTML=wishes.slice(0,6).map(item=>`<div class="wish-star"><strong>✦ ${item.text}</strong><small>${item.date}</small></div>`).join('');
+}
+function addWish(){
+  const text=els.wishInput.value.trim();
+  if(!text){toast('Escribe un deseo primero.');return;}
+  const wishes=storage.getWishes();
+  wishes.unshift({id:Date.now(),text,date:new Date().toLocaleDateString('es-CR')});
+  storage.setWishes(wishes.slice(0,18));
+  els.wishInput.value='';
+  renderWishes();
+  toast('Deseo lanzado al portal');
+}
+function spawnRainStar(){
+  const star=document.createElement('button');
+  const message=STAR_MESSAGES[Math.floor(Math.random()*STAR_MESSAGES.length)];
+  star.type='button';
+  star.className='rain-star';
+  star.dataset.message=message;
+  star.style.left=`${Math.random()*88}%`;
+  star.style.animationDuration=`${4+Math.random()*3}s`;
+  star.addEventListener('click',()=>{
+    star.classList.add('message');
+    els.rainHint.textContent=message;
+    toast(message);
+    setTimeout(()=>star.remove(),900);
+  });
+  star.addEventListener('animationend',()=>star.remove());
+  els.rainStage.appendChild(star);
+}
+function startStarRain(){
+  clearInterval(rainTimer);
+  rainTimer=setInterval(spawnRainStar,1200);
+}
+function renderGarden(){
+  const entries=storage.getEntries();
+  if(!entries.length){
+    els.gardenStage.innerHTML='<div class="garden-empty">Tu jardin florece cuando guardas una entrada en el diario.</div>';
+    return;
+  }
+  els.gardenStage.innerHTML=entries.slice(0,8).map((entry,index)=>{
+    const mood=MOODS.find(item=>item.name===entry.mood);
+    const petal=mood?mood.accent:['#ff6fa6','#6fe7ff','#d8abff','#71f1d0'][index%4];
+    return `<article class="garden-flower" style="--petal:${petal}"><span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span><span class="petal p4"></span><span class="flower-core"></span></article>`;
+  }).join('');
+}
+function renderPlanetReadout(){
+  const mood=state.moodIndex>=0?MOODS[state.moodIndex]:MOODS[3];
+  els.planetReadout.innerHTML=PLANETS.map((planet,index)=>`<article class="planet-item"><strong>${planet.name}</strong><p>${planet.meaning} Hoy vibra con tono ${index%2===0?mood.name.toLowerCase():'cosmico'}.</p></article>`).join('');
+}
+function initAstralMap(){
+  const canvas=els.astralCanvas;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  const nodes=Array.from({length:9},(_,i)=>({a:(Math.PI*2/9)*i,r:80+Math.random()*90,size:4+Math.random()*5}));
+  function draw(){
+    const {width,height}=canvas;
+    ctx.clearRect(0,0,width,height);
+    ctx.save();
+    ctx.translate(width/2,height/2);
+    for(let ring=1;ring<=3;ring+=1){
+      ctx.beginPath();
+      ctx.strokeStyle='rgba(255,255,255,.08)';
+      ctx.arc(0,0,ring*52,0,Math.PI*2);
+      ctx.stroke();
+    }
+    nodes.forEach((node,index)=>{
+      const mood=state.moodIndex>=0?MOODS[state.moodIndex]:MOODS[index%MOODS.length];
+      const time=performance.now();
+      const x=Math.cos(node.a+time*0.00012*(index%3+1))*node.r;
+      const y=Math.sin(node.a+time*0.00015*(index%4+1))*node.r*.74;
+      const next=nodes[(index+1)%nodes.length];
+      const nx=Math.cos(next.a+time*0.00012*((index+1)%3+1))*next.r;
+      const ny=Math.sin(next.a+time*0.00015*((index+1)%4+1))*next.r*.74;
+      ctx.beginPath();
+      ctx.strokeStyle='rgba(255,255,255,.12)';
+      ctx.moveTo(x,y);
+      ctx.lineTo(nx,ny);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.fillStyle=mood.accent;
+      ctx.shadowBlur=18;
+      ctx.shadowColor=mood.accent;
+      ctx.arc(x,y,node.size,0,Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur=0;
+    });
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+function initPlanetarium(){
+  const canvas=els.planetCanvas;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  const planets=PLANETS.map((planet,index)=>({angle:index*1.2,orbit:44+index*34,size:8+index*2}));
+  function draw(){
+    const {width,height}=canvas;
+    const mood=state.moodIndex>=0?MOODS[state.moodIndex]:MOODS[3];
+    ctx.clearRect(0,0,width,height);
+    ctx.save();
+    ctx.translate(width/2,height/2);
+    ctx.beginPath();
+    ctx.fillStyle='rgba(255,255,255,.92)';
+    ctx.arc(0,0,20,0,Math.PI*2);
+    ctx.fill();
+    planets.forEach((planet,index)=>{
+      ctx.beginPath();
+      ctx.strokeStyle='rgba(255,255,255,.08)';
+      ctx.arc(0,0,planet.orbit,0,Math.PI*2);
+      ctx.stroke();
+      planet.angle+=0.0028+(index*0.0005);
+      const x=Math.cos(planet.angle)*planet.orbit;
+      const y=Math.sin(planet.angle)*planet.orbit*.66;
+      ctx.beginPath();
+      ctx.fillStyle=index%2===0?mood.accent:MOODS[(index+1)%MOODS.length].accent;
+      ctx.shadowBlur=20;
+      ctx.shadowColor=ctx.fillStyle;
+      ctx.arc(x,y,planet.size,0,Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur=0;
+    });
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+function initGalaxy(){
+  const canvas=els.galaxyCanvas;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  const resizeGalaxyCanvas=()=>{
+    const size=Math.min(560, Math.max(280, els.galaxyStage.clientWidth-32));
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=size*dpr;
+    canvas.height=size*dpr;
+    canvas.style.width=`${size}px`;
+    canvas.style.height=`${size}px`;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  resizeGalaxyCanvas();
+  window.addEventListener('resize',resizeGalaxyCanvas,{passive:true});
+  const stars=Array.from({length:220},()=>({
+    angle:Math.random()*Math.PI*2,
+    radius:30+Math.random()*210,
+    size:.6+Math.random()*2.6,
+    speed:.0008+Math.random()*.0022,
+    hue:Math.random()>.5?190:300
+  }));
+  function draw(){
+    const width=canvas.clientWidth;
+    const height=canvas.clientHeight;
+    ctx.clearRect(0,0,width,height);
+    ctx.save();
+    ctx.translate(width/2,height/2);
+    ctx.scale(galaxyState.zoom,galaxyState.zoom);
+    ctx.rotate(galaxyState.rotation);
+    const tiltScaleX=1+Math.sin(galaxyState.tiltY)*.08;
+    const tiltScaleY=.78+Math.cos(galaxyState.tiltX)*.1;
+    ctx.scale(tiltScaleX,tiltScaleY);
+    const core=ctx.createRadialGradient(0,0,12,0,0,110);
+    core.addColorStop(0,'rgba(255,255,255,.96)');
+    core.addColorStop(.2,'rgba(129,220,255,.86)');
+    core.addColorStop(.52,'rgba(144,104,255,.24)');
+    core.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=core;
+    ctx.beginPath();
+    ctx.arc(0,0,118,0,Math.PI*2);
+    ctx.fill();
+    for(const star of stars){
+      star.angle+=star.speed;
+      const armOffset=Math.sin(star.radius*.045+star.angle*2.4)*22;
+      const x=Math.cos(star.angle)*(star.radius+armOffset);
+      const y=Math.sin(star.angle)*(star.radius*.45+armOffset*.35);
+      ctx.fillStyle=`hsla(${star.hue},100%,${74+Math.random()*18}%,.9)`;
+      ctx.beginPath();
+      ctx.arc(x,y,star.size,0,Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+    galaxyState.rotation+=.0032;
+    els.galaxyChip.textContent=`rotacion ${Math.round((galaxyState.rotation%(Math.PI*2))*57.2958)}deg`;
+    requestAnimationFrame(draw);
+  }
+  const pointerMove=(clientX,clientY)=>{
+    if(!galaxyState.dragging)return;
+    const dx=clientX-galaxyState.lastX;
+    const dy=clientY-galaxyState.lastY;
+    galaxyState.lastX=clientX;
+    galaxyState.lastY=clientY;
+    galaxyState.rotation+=dx*.01;
+    galaxyState.tiltX=Math.max(-1.2,Math.min(1.2,galaxyState.tiltX+dy*.005));
+    galaxyState.tiltY=Math.max(-1.2,Math.min(1.2,galaxyState.tiltY+dx*.003));
+  };
+  els.galaxyStage.addEventListener('pointerdown',(event)=>{
+    galaxyState.dragging=true;
+    galaxyState.lastX=event.clientX;
+    galaxyState.lastY=event.clientY;
+    els.galaxyStage.classList.add('dragging');
+    els.galaxyStage.setPointerCapture(event.pointerId);
+  });
+  els.galaxyStage.addEventListener('pointermove',(event)=>pointerMove(event.clientX,event.clientY));
+  ['pointerup','pointercancel','pointerleave'].forEach(type=>els.galaxyStage.addEventListener(type,()=>{
+    galaxyState.dragging=false;
+    els.galaxyStage.classList.remove('dragging');
+  }));
+  els.galaxyStage.addEventListener('wheel',(event)=>{
+    event.preventDefault();
+    galaxyState.zoom=Math.max(.72,Math.min(1.8,galaxyState.zoom-(event.deltaY*.001)));
+    els.galaxyChip.textContent=`zoom ${galaxyState.zoom.toFixed(2)}x`;
+  },{passive:false});
+  draw();
+}
+function updatePrompt(randomize){state.promptIndex=randomize?Math.floor(Math.random()*PROMPTS.length):(state.promptIndex+1)%PROMPTS.length;els.promptText.textContent=PROMPTS[state.promptIndex]}
+function updateWordCount(){const value=els.journalInput.value.trim();const count=value?value.split(/\s+/).length:0;els.wordCount.textContent=`${count} ${count===1?'palabra':'palabras'}`}
+function exportEntry(text){const date=new Date().toISOString().slice(0,10);const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=`cosmic-vibes-${date}.txt`;link.click();URL.revokeObjectURL(url)}
+function saveEntry(){
+  const text=els.journalInput.value.trim();
+  if(!text){toast('Escribe algo antes de guardar.');return;}
+  const entries=storage.getEntries();
+  const mood=state.moodIndex>=0?MOODS[state.moodIndex].name:'Libre';
+  const date=new Date();
+  entries.unshift({id:Date.now(),mood,prompt:els.promptText.textContent,text,date:date.toLocaleString('es-CR')});
+  storage.setEntries(entries.slice(0,12));
+  const stats=storage.getStats();
+  const today=new Date().toISOString().slice(0,10);
+  if(stats.lastSaved!==today){stats.streak=(stats.streak||0)+1;stats.lastSaved=today;storage.setStats(stats);}
+  renderEntries(); renderStats();
+  renderGarden();
+  exportEntry(`Cosmic Vibes\nFecha: ${date.toLocaleString('es-CR')}\nMood: ${mood}\n\nPregunta:\n${els.promptText.textContent}\n\nEntrada:\n${text}\n`);
+  toast('Entrada guardada y exportada.');
+}
+function renderEntries(){
+  const entries=storage.getEntries();
+  if(!entries.length){els.memoryList.innerHTML='<div class="memory-item"><strong>Aun no hay entradas</strong><p>Guarda tu primera nota y aparecera aqui.</p></div>';return;}
+  els.memoryList.innerHTML=entries.map(entry=>`<article class="memory-item"><strong>${entry.mood} · ${entry.date}</strong><p>${entry.text.length>180?`${entry.text.slice(0,180)}...`:entry.text}</p></article>`).join('');
+}
+function revealOnScroll(){
+  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('shown')})},{threshold:.16});
+  document.querySelectorAll('[data-reveal]').forEach(node=>observer.observe(node));
+}
+function setToday(){els.todayDate.textContent=new Date().toLocaleDateString('es-CR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+function activateNav(){
+  els.menuBtn.addEventListener('click',()=>els.navLinks.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',()=>els.navLinks.classList.remove('open')));
+  const ids=['mood','galaxy','portal','astral','journal'];
+  window.addEventListener('scroll',()=>{let active=ids[0];ids.forEach(id=>{const section=document.getElementById(id);if(section&&window.scrollY>=section.offsetTop-120)active=id});document.querySelectorAll('.nav-links a').forEach(link=>link.classList.toggle('active',link.getAttribute('href')===`#${active}`))},{passive:true});
+}
+function bindEvents(){
+  els.wishBtn.addEventListener('click',addWish);
+  els.wishInput.addEventListener('keydown',(event)=>{if(event.key==='Enter')addWish()});
+  els.newPromptBtn.addEventListener('click',()=>updatePrompt(false));
+  els.clearBtn.addEventListener('click',()=>{els.journalInput.value='';updateWordCount();});
+  els.saveBtn.addEventListener('click',saveEntry);
+  els.exportBtn.addEventListener('click',()=>{const text=els.journalInput.value.trim();if(!text){toast('No hay texto para exportar.');return;}exportEntry(text);toast('Archivo exportado.');});
+  els.journalInput.addEventListener('input',updateWordCount);
+}
+function init(){buildMoodCards();revealOnScroll();setToday();updatePrompt(true);renderEntries();renderStats();renderWishes();renderGarden();renderPlanetReadout();activateNav();bindEvents();initGalaxy();initAstralMap();initPlanetarium();startStarRain();}
+init();
+</script>
+</body>
+</html>
